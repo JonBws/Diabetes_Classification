@@ -5,6 +5,12 @@ from dataclasses import dataclass
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from catboost import CatBoostClassifier
+from xgboost import XGBClassifier
+
 from sklearn.metrics import accuracy_score,confusion_matrix,recall_score,precision_score
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -36,7 +42,13 @@ class ModelTrainer:
             models = {
                 'Decision Tree': DecisionTreeClassifier(),
                 'KNN': KNeighborsClassifier(),
-                'Logistic Regression': LogisticRegression()
+                'Logistic Regression': LogisticRegression(),
+                'Random Forest': RandomForestClassifier(),
+                'SVM': SVC(),
+                'Naive Bayes': GaussianNB(),
+                'Adaboost': AdaBoostClassifier(),
+                'Gboost': CatBoostClassifier(verbose=False),
+                'XGboost': XGBClassifier() 
             }
             
             model_report:dict = evaluate_models(xtrain,ytrain,xtest,ytest,models)

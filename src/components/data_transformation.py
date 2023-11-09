@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, FunctionTransformer
 
 from src.execption import CustomException
 from src.logger import logging
@@ -31,29 +31,28 @@ class DataTransformation:
             numerical_columns = ['Pregnancies','Glucose','BloodPressure', 'SkinThickness',
                                  'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
             categorical_columns = []
-            
+          
             num_pipeline=Pipeline(
                 steps=[
-                ('imputer', SimpleImputer(strategy='median')),
                 ('scaler', StandardScaler(with_mean=False))
                 ]
             )
             
-            cat_pipeline=Pipeline(
-                steps=[
-                ('imputer', SimpleImputer(strategy='most_frequent')),
-                ('one_hot_encoder', OneHotEncoder()),
-                ('scaler', StandardScaler(with_mean=False))
-                ]
+            # cat_pipeline=Pipeline(
+            #     steps=[
+            #     ('imputer', SimpleImputer(strategy='most_frequent')),
+            #     ('one_hot_encoder', OneHotEncoder()),
+            #     ('scaler', StandardScaler(with_mean=False))
+            #     ]
                 
-            )
+            # )
             logging.info('Numerical columns standard scaling completed')
             logging.info('Categorical columns encoding completed')
             
             preprocessor=ColumnTransformer(
                 [
-                    ('num_pipeline', num_pipeline, numerical_columns),
-                    ('cat_pipeline', cat_pipeline, categorical_columns)
+                    ('num_pipeline', num_pipeline, numerical_columns)
+                    # ('cat_pipeline', cat_pipeline, categorical_columns)
                 ]
             )
             
@@ -74,7 +73,7 @@ class DataTransformation:
             preprocessing_obj=self.get_data_transformer_object()
             
             target_column_name='Outcome'
-            drop_column_name = [target_column_name, 'Id']
+            drop_column_name = [target_column_name]
             
             input_feature_train_df=train_df.drop(columns=drop_column_name, axis=1)
             target_feature_train_df=train_df[target_column_name]
@@ -102,6 +101,14 @@ class DataTransformation:
             )
             
             logging.info(f'Preprocessor pickle file saved')
+            
+            # Tambahkan kode berikut untuk mencetak hasil akhir dari data yang sudah diproses
+            print("Data Pelatihan Setelah Pemrosesan:")
+            print(train_arr[:5])  # Mencetak lima baris pertama dari data pelatihan yang sudah diproses
+
+            print("Data Pengujian Setelah Pemrosesan:")
+            print(test_arr[:5])  # Mencetak lima baris pertama dari data pengujian yang sudah diproses
+
             
             return(
                 train_arr,
