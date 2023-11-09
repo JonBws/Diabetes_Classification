@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block title%}
+    Result
+{% endblock %}
+
+{% block result%}
+<div class="result">
+    <h2>
+        {% if results==1 %}
+            Prediction: Diabetes
+        {% elif results==0 %}
+            Prediction: Don't have Diabetes
+        {% endif %}
+    </h2>
+</div>
+{% endblock %}
