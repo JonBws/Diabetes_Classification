@@ -1,4 +1,5 @@
 ## Diabetes Prediction
+This project explores the use of machine learning to predict diabetes risk based on a person's health condition. i am investigated various algorithms and chose the one with the best performance and interpretability. The project culminates in a user-friendly Flask app that allows users to input their health information and receive personalized predictions.
 
 ![GIF](resource/web-app.gif)
 
